@@ -1,0 +1,18 @@
+scrapy process:
+
+scrape the page front pages:
+	what information am i getting?
+		-company name
+		-description of the company
+		-url for next scraper: saved to csv for next step
+
+scrape the inner pages by reading the csv and going through the pages:
+	what information am i getting?
+		-설립일
+		-구성원숫자
+		-위치
+		-홈페이지
+		-SNS link
+		-채용정보:
+			-title
+			-분야
