@@ -12,6 +12,7 @@ class SecondSpider(scrapy.Spider):
             for entry in data:
                 print(entry['company_url'])
                 self.start_urls.append(baseURL + entry['company_url'])
+        self.download_delay = 1
 
 
     def parse(self, response):
@@ -40,12 +41,12 @@ class SecondSpider(scrapy.Spider):
                 company_infocard['date-created'] = com_info_entry.css('div.content::text').extract_first()
             elif(com_info_entry.css('div.title > i.ic-globe.icon')): #homepage url
                 company_infocard['homepage'] = com_info_entry.css('div.content > a::attr(href)').extract_first()
-            elif(com_info_entry.css('div.title > i.ic-location.icon')): #location just take the first location if provided
-                company_infocard['location'] = com_info_entry.css('div.content > div.office.item::text').extract_first()
+            elif(com_info_entry.css('div.title > i.ic-location.icon')): #location just take the first location if provided #답을 못찾아서 노답방식 string manipulation으로함... :(
+                company_infocard['location'] = com_info_entry.css('div.content > div.office.item').extract_first().split("</a>", 1)[1].split("</div>",1)[0]
             elif(com_info_entry.css('div.title > i.ic-email_new.icon')): #SNS just take the first sns information if provided
                 company_infocard['SNS'] = com_info_entry.css('div.sns.content > a::attr(href)').extract_first()
             elif(com_info_entry.css('div.title > i.ic-group.icon')): #member count
-                company_infocard['member-count'] = com_info_entry.css('div.content > div.content::text').extract_first()
+                company_infocard['member-count'] = com_info_entry.css('div.content::text').extract_first()
 
 
         #default setting for company card, for this section, the information is in the uniform format so i
